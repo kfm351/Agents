@@ -1,0 +1,53 @@
+﻿@rendermode InteractiveServer
+
+<div class="modal show" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="display: block;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Заголовок модального окна -->
+            <div class="modal-header">
+                <h4 class="modal-title">Модальное окно</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <!-- Основное содержимое модального окна -->
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="agentName">Имя агента:</label>
+                        <input type="text" class="form-control" id="agentName" @bind="_agentName">
+                    </div>
+                </form>
+            </div>
+
+            <!-- Футер модального окна -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="addAgentBtn" @onclick="CreateAgent">Добавить агента</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" @onclick="Close">Закрыть</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter] public EventCallback OnClose { get; set; }
+
+    private string _agentName;
+
+    private void Close()
+    {
+        OnClose.InvokeAsync();
+    }
+
+    private void CreateAgent()
+    {
+        if (_agentName != null)
+        {
+            Data.Data.AgentList.Add(new(_agentName));
+            Close();
+        }
+    }
+}

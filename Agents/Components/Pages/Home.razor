@@ -1,0 +1,21 @@
+﻿@page "/"
+@rendermode InteractiveServer
+@using Agents.Components.Components
+@using Agents.Data
+<PageTitle>Home</PageTitle>
+
+<AgentListComponent AgentCreateEvent="SwitchAddAgentModal"></AgentListComponent>
+
+@if (isAddAgentModalVisible)
+{
+    <AddAgentModalComponent OnClose="SwitchAddAgentModal"></AddAgentModalComponent>
+}
+@code{
+    private bool isAddAgentModalVisible = false;
+
+    private void SwitchAddAgentModal() {
+        isAddAgentModalVisible = !isAddAgentModalVisible;
+    }
+
+    
+}
