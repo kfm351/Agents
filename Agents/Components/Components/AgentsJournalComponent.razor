@@ -1,0 +1,38 @@
+﻿@using Agents.Data
+
+<div class="container">
+    <h2>Журнал агентов</h2>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Агент</th>
+                <th>Движение</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var a in Data.AgentsJournal)
+            {
+                <tr>
+                    <td>@a.Item1.Name</td>
+                    <td style=@GetStyle(a.Item2);>@a.Item2</td>
+            </tr>
+            }
+        </tbody>
+    </table>
+
+    <button type="button" class="btn btn-primary" @onclick="AddAgentJournal">Добавить</button>
+</div>
+
+@code {
+    [Parameter] public EventCallback AddAgentJournalEvent { get; set; }
+
+    private void AddAgentJournal()
+    {
+        AddAgentJournalEvent.InvokeAsync();
+    }
+
+    private string GetStyle(int value)
+    {
+        return value > 0 ? "color: green;" : "color: red;";
+    }
+}

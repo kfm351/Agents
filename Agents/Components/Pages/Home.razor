@@ -5,17 +5,28 @@
 <PageTitle>Home</PageTitle>
 
 <AgentListComponent AgentCreateEvent="SwitchAddAgentModal"></AgentListComponent>
+<AgentsJournalComponent AddAgentJournalEvent="SwitchAddJournalModal"></AgentsJournalComponent>
+
+@if(isAddJournalModalVisible)
+{
+    <AddJournalModalComponent OnClose="SwitchAddJournalModal"></AddJournalModalComponent>
+}
 
 @if (isAddAgentModalVisible)
 {
     <AddAgentModalComponent OnClose="SwitchAddAgentModal"></AddAgentModalComponent>
 }
+
+
 @code{
     private bool isAddAgentModalVisible = false;
+    private bool isAddJournalModalVisible = false;
 
     private void SwitchAddAgentModal() {
         isAddAgentModalVisible = !isAddAgentModalVisible;
     }
 
-    
+    private void SwitchAddJournalModal() {
+        isAddJournalModalVisible = !isAddJournalModalVisible;
+    }
 }

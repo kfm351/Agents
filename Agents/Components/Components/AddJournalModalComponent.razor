@@ -1,0 +1,67 @@
+﻿@using Agents.Data
+@rendermode InteractiveServer
+
+<div class="modal show" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="display: block;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Заголовок модального окна -->
+            <div class="modal-header">
+                <h4 class="modal-title">Модальное окно</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <!-- Основное содержимое модального окна -->
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="exampleFormControlSelect1">Выберите агента:</label>
+                    <select class="form-control" id="exampleFormControlSelect1" @bind="_selectedAgent">
+                        @foreach(var a in Data.AgentList)
+                        {
+                            <option>@a.Name</option>
+                        }
+                    </select>
+                </div>
+                <!-- Текстовое поле -->
+                <div class="form-group">
+                    <label for="exampleInputText">Введите сумму движения:</label>
+                    <input type="text" class="form-control" id="exampleInputText" placeholder="Текст" @bind="_summary">
+                </div>
+                <!-- Кнопка "Добавить" -->
+                <button type="submit" class="btn btn-primary">Добавить</button>
+            </div>
+
+            <!-- Футер модального окна -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="addAgentBtn" @onclick="CreateJournal">Добавить агента</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" @onclick="Close">Закрыть</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter] public EventCallback OnClose { get; set; }
+    private string _selectedAgent;
+    private string _summary;
+
+    private void Close()
+    {
+        OnClose.InvokeAsync();
+    }
+
+    private void CreateJournal()
+    {
+        Agent agent = Data.AgentList[0];
+        foreach(var a in Data.AgentList)
+        {
+            if (a.Name == _selectedAgent)
+                agent = a;
+        }
+        Data.AgentsJournal.Add((agent, Convert.ToInt32(_summary)));
+        Close();
+    }
+}
